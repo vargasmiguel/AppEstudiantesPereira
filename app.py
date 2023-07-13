@@ -106,15 +106,15 @@ dfA = data()
 
 
 with st.sidebar:
-    choose = option_menu("Mis Opciones", ["Datos", "MAPA","SEDE", "ESTRATO", "DISCAPACIDAD", "CAPACIDADES", "NIVEL", "METODOLOGIA","JORNADA","EDAD"],
-                         icons=['house', 'geo-alt', 'building', 'coin', 'universal-access', 'access','book', "vector-pen", "sun-fill", "calendar"],
+    choose = option_menu("Mis Opciones", ["Datos", "MAPA","SEDE", "ESTRATO", "DISCAPACIDAD", "CAPACIDADES", "ETNIA", "NIVEL", "METODOLOGIA","JORNADA","EDAD"],
+                         icons=['house', 'geo-alt', 'building', 'coin', 'universal-access', 'eyeglasses', 'person','book', "vector-pen", "sun-fill", "calendar"],
                          menu_icon="app-indicator", default_index=0)
     
 if choose == "Datos":
     st.header("DATOS CRUDOS")
     st.dataframe(filter_dataframe(dfA))
 
-if choose in ["SEDE", "ESTRATO", "DISCAPACIDAD", "CAPACIDADES", "NIVEL", "METODOLOGIA","JORNADA"]:
+if choose in ["SEDE", "ESTRATO", "DISCAPACIDAD", "CAPACIDADES","ETNIA", "NIVEL", "METODOLOGIA","JORNADA"]:
     st.header("DATOS POR "+choose)
     fig = px.bar(dfA[["INSTITUCION",choose]].value_counts().reset_index(), x="INSTITUCION", y="count", color=choose)
     st.plotly_chart(fig)
