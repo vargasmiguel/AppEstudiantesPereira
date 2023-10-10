@@ -169,7 +169,8 @@ if choose == "MAPA":
             latitude=4.80,
             longitude=-75.70,
             zoom=12,
-            pitch=45,
+            pitch=100,
+            bearing=50
         ),
         layers=[
             pdk.Layer(
