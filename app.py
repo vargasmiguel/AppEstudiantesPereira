@@ -96,7 +96,10 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 @st.cache_data
 def data():
     filtro=['I.E MARIA DOLOROSA','I.E JORGE ELIECER GAITAN', 'I.E MATECAÑA', 'I.E LENINGRADO', 'I.E MANOS UNIDAS', 'I.E SOFIA HERNANDEZ',
-        'I.E VILLA SANTANA', 'I.E AUGUSTO ZULUAGA', 'I.E ESCUELA DE LA PALABRA']
+        'I.E VILLA SANTANA', 'I.E AUGUSTO ZULUAGA', 'I.E ESCUELA DE LA PALABRA', 'I.E INEM FELIPE PEREZ', 'I.E CIUDAD BOQUIA']
+        #'I.E LA CARBONERA',
+        # 'C.E MARIA CRISTINA GOMEZ','I.E EL RETIRO','I.E GABRIEL TRUJILLO','I.E GONZALO MEJIA ECHEVERRY',
+        # 'I.E LA BELLA','I.E LA PALMILLA','I.E MUNDO NUEVO']
     df=pd.read_csv("estudiantesPereira.csv")
     dfA=df[df["INSTITUCION"].isin(filtro)]
     return dfA
@@ -106,15 +109,15 @@ dfA = data()
 
 
 with st.sidebar:
-    choose = option_menu("Mis Opciones", ["Datos", "MAPA","SEDE", "ESTRATO", "DISCAPACIDAD", "NIVEL", "METODOLOGIA","JORNADA","EDAD"],
-                         icons=['house', 'geo-alt', 'building', 'coin', 'universal-access','book', "vector-pen", "sun-fill", "calendar"],
+    choose = option_menu("Mis Opciones", ["Datos", "MAPA","SEDE", "ESTRATO", "DISCAPACIDAD", "CAPACIDADES", "ETNIA", "NIVEL", "METODOLOGIA","JORNADA","EDAD"],
+                         icons=['house', 'geo-alt', 'building', 'coin', 'universal-access', 'eyeglasses', 'person','book', "vector-pen", "sun-fill", "calendar"],
                          menu_icon="app-indicator", default_index=0)
     
 if choose == "Datos":
     st.header("DATOS CRUDOS")
     st.dataframe(filter_dataframe(dfA))
 
-if choose in ["SEDE", "ESTRATO", "DISCAPACIDAD", "NIVEL", "METODOLOGIA","JORNADA"]:
+if choose in ["SEDE", "ESTRATO", "DISCAPACIDAD", "CAPACIDADES","ETNIA", "NIVEL", "METODOLOGIA","JORNADA"]:
     st.header("DATOS POR "+choose)
     fig = px.bar(dfA[["INSTITUCION",choose]].value_counts().reset_index(), x="INSTITUCION", y="count", color=choose)
     st.plotly_chart(fig)
@@ -138,7 +141,17 @@ if choose == "MAPA":
        'I.E SOFIA HERNANDEZ': [4.80075, -75.73994],
        'I.E VILLA SANTANA': [4.8013, -75.66729], 
        'I.E AUGUSTO ZULUAGA': [4.81916, -75.70615], 
-       'I.E ESCUELA DE LA PALABRA':[4.82073, -75.70153]}
+       'I.E ESCUELA DE LA PALABRA':[4.82073, -75.70153],
+       'I.E INEM FELIPE PEREZ':[4.811635897782964, -75.71674771709239],
+       'I.E CIUDAD BOQUIA':[4.8216234049201425, -75.73258535204414]}
+       #'I.E LA CARBONERA':[],
+       #'C.E MARIA CRISTINA GOMEZ':[],
+       #'I.E EL RETIRO':[],
+       #'I.E GABRIEL TRUJILLO':[],
+       #'I.E GONZALO MEJIA ECHEVERRY':[],
+       #'I.E LA BELLA':[],
+       #'I.E LA PALMILLA':[],
+       #'I.E MUNDO NUEVO':[]
     
     dfC=dfA[["INSTITUCION"]].value_counts().reset_index()
     
@@ -173,4 +186,3 @@ if choose == "MAPA":
             ),
         ],
     tooltip={"text": "{INSTITUCION} \n Estudiantes: {count}"}))
-
